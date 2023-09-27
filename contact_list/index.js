@@ -10,9 +10,12 @@ const path = require('path');
 // setting path to use in dynamically templete provided by ejs 
 const port =3000;
 //choosing the port in which we want to run our project
+const db = require('./config/mongoose');
+// library for setting up database
 
 const app =express();
 // express is the function that contains all the function that we are going to require in our project 
+
 app.set('view engine','ejs')
 app.set('views', path.join(__dirname,'views'));
 app.use(express.urlencoded());
