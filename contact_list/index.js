@@ -8,7 +8,7 @@ const express =require ('express');
 // using require to use the module in our project same as we use in http 
 const path = require('path');
 // setting path to use in dynamically templete provided by ejs 
-const port =8000;
+const port =3000;
 //choosing the port in which we want to run our project
 const db = require('./config/mongoose');
 // library for setting up database
