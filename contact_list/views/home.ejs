@@ -1,0 +1,51 @@
+<html>
+    <head>
+        
+        <!-- our css file should be placed below every other style tag so it can override every other file in the project -->
+        <link rel="stylesheet" href="/css/home.css">
+        <title>
+             <%=locals.title%>
+        </title>
+        
+    </head>
+    <body>
+        <h1 id="body-heading">
+            <i id="address-book" class="fa-solid fa-address-book"></i>
+            My Contact List
+        </h1>
+        <div >
+         <div>
+             <ul>
+                <%for(let i of contact_list){%> 
+                    <li class="box">
+                      <div class="innerbox">
+                        <p id="name"><%=i.name%></p>
+                        <div class="phonebox">
+                          <p id="phone"><%=i.phone%></p>
+                        
+                         <div class="delete-button">
+                           <a href="/delete-contact/?phone=<%=i.phone%>">
+                             <i id="delete" class="fa-solid fa-rectangle-xmark"></i>
+                           </a>
+                         </div>
+                       </div>
+                      </div>   
+                    </li>
+                <%}%>
+             </ul>
+              <div id="form-alignment">
+                 <form action="/create-contact" method="Post">
+                   <input type="text" name ="name" placeholder="required">
+                   <input type="number"name="phone"placeholder="required">
+                   <button type="submit">Add Contact</button>
+
+                 </form>
+              </div> 
+          </div>  
+            <!-- this is form created by us action is the value we used to create the redirect information to that page-->
+            <script type="text/javascript" src="/js/home.js"></script>
+            <!-- add fontawesome sheet -->
+            <script src="https://kit.fontawesome.com/6834fc8242.js" crossorigin="anonymous"></script>
+        </div>
+    </body>
+</html>
