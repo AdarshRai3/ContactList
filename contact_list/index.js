@@ -3,7 +3,7 @@
 //first we make the folder and then we use command cd contact_list/ to get in the server
 // after that we install npm init to add package,json in our project
 // then we install express framework using the command npm install express --save since we alrady had node.js installed if not then in that casee we csn use command npm install --save
-const { randomInt } = require('crypto');
+// const { randomInt } = require('crypto');
 const express =require ('express');
 // using require to use the module in our project same as we use in http 
 const path = require('path');
@@ -12,6 +12,8 @@ const port =3000;
 //choosing the port in which we want to run our project
 const db = require('./config/mongoose');
 // library for setting up database
+
+const Contact= require('./model/contact');
 
 const app =express();
 // express is the function that contains all the function that we are going to require in our project 

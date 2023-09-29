@@ -18,7 +18,7 @@ body{
  {
    color:transparent;
  }
-.box .innerbox 
+.box .innerbox
 {
     
     margin-left:20%;
@@ -55,6 +55,7 @@ body{
 #delete
 {
   color:#fff;
+  
   
 }
 #delete:hover
