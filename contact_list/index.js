@@ -55,56 +55,94 @@ var contactList = [
     }
 ];
 // this we add the array for the contact list and add the context to it 
-app.get('/', function(req,res){
-    
-    return res.render('home',{
-        title: "Contacts List",
-        contact_list:contactList
-    });
-    // since it is the last statement in the function we have to return it 
-
+app.get('/', async (req, res)=>{
+    try {
+        const contacts = await Contact.find({});
+        return res.render('home',{
+           title:"Contact list",
+           contact_list:contacts
+        });
+    } catch (err) {
+        console.log('error in fetching contacts', err);
+        return res.status(500).send('Internal Server Error');
+    }
 });
 //rather then using switch we app. request_name to control our page in express.js it just modularise our code better and there are multiple types of 2 are : non-ajax(get and post)and other 3 are ajax:(put,patch,delete)
 // now we have move towards understanding template engines there are various types of templete engines one of them is handle bar js , but what we are using is Ejs Embeedded Javascript teplete and pug
 // revision -1> install ejs 2>app.set view engine , viewpath 3>view directory +file 4>render using res.render
 // in view extension we used is ejs not html
 //debugging - not including library and syntax error not using correct brackets and colans and commas 
-app.get ('/practice',function(req,res){
+// app.get ('/practice',function(req,res){
 
-    return res.render('practice',
-    {
-      title: "let us play with ejs"
-    });
+//     return res.render('practice',
+//     {
+//       title: "let us play with ejs"
+//     });
 
-});
+// });
 
 
-app.post('/create-contact',function(req,res)
-{
+// app.post('/create-contact',function(req,res)
+// {
+     
+//     //   contactList.push(
+//     //     {
+//     //         name: req.body.name,
+//     //         phone: req.body.phone
+//     //     });
+//     //    return res.redirect('/');
+//     // we have commented this ince now we interacting with the database
 
-      contactList.push(
-        {
-            name: req.body.name,
-            phone: req.body.phone
-        });
-       return res.redirect('/');
-    
-    
-});
+//      Contact.create({
+//         name: req.body.name,
+//         phone: req.body.phone
+//      },function(err,newContact){
+//         if(err){
+//             console.log('error in creating a conact');
+//             return;
+//         }
+//          console.log('**********',newContact);
+//          return res.redirect('back');
+//      });
+// });
 // create the contact function using the app.post function and also using redirect function thAt will redirect the function to ./practice page.
 //for deleting the phone number
 // to delete contact from the contact list
-app.get('/delete-contact', function(req, res){
-    //console.log(req.query);
-    let phone = req.query.phone
-    //query to take the phone from the contact list and then delete it 
-    let contactindex = contactList.findIndex(contact => contact.phone == phone);
+app.post('/', async  (req, res)=> {
+    try {
+        // Create a new contact using async/await
+        const newContact = await Contact.create({
+            name: req.body.name,
+            phone: req.body.phone
+        });
 
-    if(contactindex != -1){
-        contactList.splice(contactindex, 1);
+        console.log('**********', newContact);
+        return res.redirect('/');
+    } catch (err) {
+        console.log('error in creating a contact', err);
+        return res.status(500).send('Internal Server Error');
     }
-
-    return res.redirect('back');
+});
+app.get('/delete-contact', async (req, res)=>{
+    //console.log(req.query);
+    // get the id from query in the url
+    try{
+        let id = req.query.id
+        // console.log(id);
+        //query to take the phone from the contact list and then delete it 
+        // let contactindex = contactList.findIndex(contact => contact.phone == phone);
+        // find the contact in the contact list using id then deleting it
+        const deleteContact= await Contact.findByIdAndDelete(id);
+    
+        return res.redirect('back');
+       
+    }
+    catch (err) {
+        console.log('error in deleting a contact from database', err);
+        return res.status(500).send('Internal Server Error');
+    }
+    
+     
 });
 //as we understand till know that for doing anything in the system we need in this we nned a connetion and router we have till now learn 2 methods one is using req.params and req.query these app.get is the middleware that we used to request and response 
 app.listen (port, function(err){
